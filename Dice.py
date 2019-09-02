@@ -1,56 +1,57 @@
 import random
 from random import randint
+from collections import Counter
 
 class Dice:
-
     def __init__(self):
 
-        """assign random Values to a list of five zeros"""
+        """assign random values to a list of five zeros"""
 
-        self.Dice = [0,0,0,0,0]
-        self.Roll(range(5))
-   
-    def Roll(self, Dice_Roll_Position):
-        """ Roll takes in a list that has an index of Dice one
+        self.dice = [0, 0, 0, 0, 0]
+        self.roll(range(5))
+
+
+    def roll(self, dice_roll_position):
+
+        """ roll takes in a list that has an index of Dice one
         would like to roll. the zeros represents Dice that have not been rolled.
         A random number is generated for the chosen Dice """
-        import random 
-        from random import randint 
-        self.Dice = [0,0,0,0,0]
-        for index in Dice_Roll_Position:
-            
-            self.Dice = randint(1,6)
-        return self.Dice
-    
-    def Values(self):
-        return self.Dice[:]
-    
-    def Score(self):
-        from collections import Counter
 
-        """ Score makes a count of the occurances of each value in self.Dice and returns a dictionary
+        for index in dice_roll_position:
+            self.dice[index] = randint(1, 6)
+        
+
+    def values(self):
+        return self.dice[:]
+
+    def Score(self):
+
+        """ Score makes a count oprint(second.Score())f the occurances of each value in self.Dice and returns a dictionary
         it then loops over the values of the dictionary and makes conditional statements according to 
         the scoring system"""
 
-        Dice_Count = Counter(self.Dice)
-        NonZero_Dice_Count = {k: Dice_Count[k] for k in Dice_Count.keys() - {0}}
-        
-        for value in list(NonZero_Dice_Count.values()):
-            
-            if value == 2 and value == 3:
-                return "you have a full house: ", 12
-            
-            elif value==3:
-                return "You have a three of a kind: ", 8
-                    
-            elif value == 4:
-                return "You have a four of a kind: ", 15
-            
-            elif  value == 5:
-                return "You have a five of a kind: ", 30
+        dice_count = Counter(self.dice)
+        nonzero_dice_count = {k: dice_count[k] for k in dice_count.keys() - {0}}    
 
-            elif value == 1:
-                return "You have a straight: ", 20
+        list_of_counts = list(nonzero_dice_count.values())
+        print(list_of_counts)
 
-            else:
-                return "Sorry, Your hand has not won you anything: ", 0
+        if 3 in list_of_counts and 2 in list_of_counts:
+            return "you have a full house: ", 12
+
+        elif 3 in list_of_counts:
+            return "You have a three of a kind: ", 8
+
+        elif 4 in list_of_counts:
+            return "You have a four of a kind: ", 15
+
+        elif 5 in list_of_counts:
+            return "You have a five of a kind: ", 30
+
+        elif all(i == 1 for i in list_of_counts):
+            return "You have a straight: ", 20
+
+        else:
+            return "Sorry, Your hand has not won you anything: ", 0
+
+
